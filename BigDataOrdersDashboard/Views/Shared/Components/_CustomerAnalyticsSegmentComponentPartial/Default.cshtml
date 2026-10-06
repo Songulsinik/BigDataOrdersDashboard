@@ -1,0 +1,28 @@
+﻿<div class="row clearfix">
+
+    <!-- SOL TARAF -->
+    <div class="col-lg-8 col-md-12">
+
+        <!-- GRAFİK -->
+        @await Component.InvokeAsync("_CustomerAnalyticsCategoryOnChartSegmentComponentPartial")
+
+        @await Component.InvokeAsync("_CustomerAnalyticsStatisticComponentPartial")
+
+        <!-- ALT İSTATİSTİK -->
+
+    </div>
+
+    <!-- SAĞ TARAF -->
+    <div class="col-lg-4 col-md-12">
+
+        @await Component.InvokeAsync("_CustomerAnalyticsCustomerCitiesComponentPartial")
+
+    </div>
+
+</div>
+
+
+
+
+
+

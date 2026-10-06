@@ -1,0 +1,89 @@
+﻿﻿ var today = DateTime.Today;
+        var tomorrow = today.AddDays(1);
+
+        var last10Orders = _context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Product)
+            .Where(o => o.OrderDate >= today && o.OrderDate < tomorrow)
+            .OrderByDescending(o => o.OrderDate)
+            .Take(10)
+            .Select(o => new
+            {
+                o.OrderId,
+                o.Product.ProductName,
+                CustomerName = o.Customer.CustomerName + " " + o.Customer.CustomerSurname,
+                o.Quantity,
+                o.PaymentMethod,
+                o.OrderStatus,
+                o.OrderDate
+            })
+            .ToList();
+
+--------------------------------------------------------------------------
+
+public int OrderId { get; set; }
+public string ProductName { get; set; }
+    public string CustomerName { get; set; }
+    public int Quantity { get; set; }
+    public string PaymentMethod { get; set; }
+    public string OrderStatus { get; set; }
+    public DateTime OrderDate { get; set; }
+
+--------------------------------------------------------------------------
+
+@((item.UnitPrice * item.Quantity).ToString("N2")) €
+
+
+
+<td>
+                @if (item.OrderStatus == "Tamamlandı")
+                {
+                    <span>✅ @item.OrderStatus</span>
+                }
+                else if (item.OrderStatus == "Beklemede" || item.OrderStatus == "Hazırlanıyor" || item.OrderStatus == "Kargoda")
+                {
+                    <span>⏳ @item.OrderStatus</span>
+                }
+                else if (item.OrderStatus == "İptal Edildi")
+                {
+                    <span>❌ @item.OrderStatus</span>
+                }
+                else
+                {
+                    <span>⚪ @item.OrderStatus</span>
+                }
+            </td>
+
+--------------------------------------------------------------------------
+
+<td>
+    @if (item.PaymentMethod == "Kredi Kartı")
+    {
+        <span>💳 @item.PaymentMethod</span>
+    }
+    else if (item.PaymentMethod == "Google Pay")
+    {
+        <span>📱 @item.PaymentMethod</span>
+    }
+    else if (item.PaymentMethod == "Banka Kartı")
+    {
+        <span>🏦 @item.PaymentMethod</span>
+    }
+    else if (item.PaymentMethod == "PayPal")
+    {
+        <span>💻 @item.PaymentMethod</span>
+    }
+    else if (item.PaymentMethod == "Havale / EFT")
+    {
+        <span>💰 @item.PaymentMethod</span>
+    }
+    else
+    {
+        <span>⚙️ @item.PaymentMethod</span>
+    }
+</td>
+
+
+
+
+€
